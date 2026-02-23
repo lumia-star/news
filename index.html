@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lumia Star · vintage archive</title>
+  <!-- Font klasik: Segoe UI (default Windows Phone/7/8) + Fallback -->
+  <style>
+    /* Reset dan basic vintage styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #1b1b1b; /* dark background ala layar AMOLED lama */
+      background-image: 
+        radial-gradient(circle at 30% 40%, rgba(70, 130, 200, 0.15) 0%, transparent 30%),
+        radial-gradient(circle at 80% 70%, rgba(200, 70, 70, 0.1) 0%, transparent 40%),
+        repeating-linear-gradient(45deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 2px, transparent 2px, transparent 6px);
+      font-family: 'Segoe UI', 'Segoe WP', 'Helvetica Neue', sans-serif;
+      color: #e0e0e0;
+      line-height: 1.5;
+      min-height: 100vh;
+      padding: 30px 15px;
+    }
+
+    /* Efek kertas/usang */
+    .vintage-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.05) 1px, transparent 1px, transparent 4px);
+      z-index: 1000;
+      opacity: 0.3;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      background: rgba(20, 30, 40, 0.85);
+      backdrop-filter: blur(2px);
+      border: 1px solid #4a6c8f;
+      box-shadow: 0 0 0 1px #2a3f55, 0 10px 30px rgba(0,0,0,0.7);
+      padding: 30px 25px;
+      position: relative;
+    }
+
+    /* Header vintage dengan gaya Windows Phone 7 tiles */
+    .header {
+      margin-bottom: 30px;
+      border-bottom: 3px solid #2d5f9e;
+      padding-bottom: 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo h1 {
+      font-size: 2.8rem;
+      font-weight: 300; /* light weight khas WP */
+      letter-spacing: -1px;
+      color: #fff;
+      text-shadow: 0 2px 0 #1d3b5c, 0 4px 0 #0f253a;
+      line-height: 1;
+    }
+
+    .logo h1 span {
+      font-weight: 700;
+      color: #8bbfff;
+    }
+
+    .logo .sub {
+      font-size: 1rem;
+      color: #a0b9d4;
+      background: #1e3f5f;
+      display: inline-block;
+      padding: 4px 15px;
+      margin-top: 8px;
+      border-left: 5px solid #ffb900; /* aksen kuning Lumia */
+      font-style: italic;
+      letter-spacing: 0.5px;
+    }
+
+    /* Navigasi retro dengan border tebal */
+    .nav {
+      background: #0f2535;
+      padding: 5px;
+      border: 2px solid #2d5f9e;
+    }
+
+    .nav a {
+      color: #c7deff;
+      text-decoration: none;
+      padding: 8px 16px;
+      display: inline-block;
+      font-weight: 600;
+      font-size: 1.1rem;
+      border-right: 1px solid #2d4b70;
+    }
+
+    .nav a:last-child {
+      border-right: none;
+    }
+
+    .nav a:hover {
+      background: #2d5f9e;
+      color: white;
+    }
+
+    /* Hero / deskripsi proyek */
+    .hero {
+      background: #102433;
+      border: 3px solid #2d5f9e;
+      padding: 25px;
+      margin-bottom: 35px;
+      box-shadow: inset 0 0 15px #00000055, 8px 8px 0 #0a1a2b;
+    }
+
+    .hero h2 {
+      font-size: 2.2rem;
+      font-weight: 400;
+      color: #ffb900; /* kuning khas Lumia */
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #ced9e8;
+      margin-bottom: 20px;
+      font-style: normal;
+      border-left: 6px solid #2d5f9e;
+      padding-left: 20px;
+    }
+
+    .meta-classic {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .meta-classic span {
+      background: #1a3249;
+      padding: 6px 15px;
+      border: 1px solid #4f7eb3;
+      font-size: 0.95rem;
+      color: #b5d0f0;
+      box-shadow: 3px 3px 0 #0a1f30;
+    }
+
+    /* Tile grid ala Windows Phone 7/8 */
+    .section-title {
+      font-size: 2rem;
+      font-weight: 300;
+      margin: 40px 0 20px 0;
+      color: #ffb900;
+      border-bottom: 2px solid #2d5f9e;
+      padding-bottom: 5px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .tile-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    /* Tile bergaya Metro / WP */
+    .tile {
+      background: #1f3a54;
+      border: 2px solid #3c6a9e;
+      padding: 20px 18px;
+      transition: all 0.1s ease;
+      box-shadow: 5px 5px 0 #0b1d2e;
+      position: relative;
+    }
+
+    .tile:hover {
+      background: #234b73;
+      border-color: #ffb900;
+      box-shadow: 8px 8px 0 #0b1d2e;
+      transform: translate(-2px, -2px);
+    }
+
+    .tile-category {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: #ffb900;
+      font-weight: 700;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    .tile h3 {
+      font-size: 1.8rem;
+      font-weight: 400;
+      margin-bottom: 12px;
+      color: white;
+      line-height: 1.2;
+    }
+
+    .tile p {
+      color: #c0d2e8;
+      font-size: 0.95rem;
+      margin-bottom: 20px;
+    }
+
+    .tile-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid #3e6390;
+      padding-top: 12px;
+      font-size: 0.85rem;
+    }
+
+    .tile-date {
+      color: #aac2e0;
+    }
+
+    .tile-link {
+      color: #ffb900;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .tile-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Tooling section vintage */
+    .tool-section {
+      background: #102b3f;
+      border: 3px solid #2d5f9e;
+      padding: 30px 25px;
+      margin: 35px 0;
+      box-shadow: inset 0 0 10px #00000077, 7px 7px 0 #082030;
+    }
+
+    .tool-section h2 {
+      color: #ffb900;
+      font-size: 2rem;
+      font-weight: 400;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .tool-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .tool-badges span {
+      background: #1d3853;
+      border: 2px solid #3c6a9e;
+      padding: 8px 20px;
+      font-size: 1.1rem;
+      color: #e0ecff;
+      box-shadow: 4px 4px 0 #0f2538;
+    }
+
+    /* Footer vintage */
+    .footer {
+      margin-top: 40px;
+      text-align: center;
+      border-top: 3px solid #2d5f9e;
+      padding-top: 20px;
+      color: #90a9c4;
+      font-size: 0.9rem;
+    }
+
+    .footer a {
+      color: #ffb900;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Efek tambahan vintage */
+    .scanline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.3) 50%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      z-index: 1001;
+      opacity: 0.2;
+    }
+
+    /* Responsif */
+    @media (max-width: 700px) {
+      .header {
+        flex-direction: column;
+        align-items: start;
+        gap: 15px;
+      }
+      .logo h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Efek vintage overlay -->
+  <div class="vintage-overlay"></div>
+  <div class="scanline"></div>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <h1>LUMIA <span>STAR</span></h1>
+        <div class="sub">firmware · tweak · custom ROM · since 2019</div>
+      </div>
+      <nav class="nav">
+        <a href="#">BERITA</a>
+        <a href="#">UNDUH</a>
+        <a href="#">DOKUMEN</a>
+        <a href="#">GITHUB</a>
+      </nav>
+    </header>
+
+    <!-- Hero section persis dari deskripsi -->
+    <div class="hero">
+      <h2>⎇ PROYEK EKSPLORASI LUMIA</h2>
+      <p>
+        Lumia Star merupakan proyek pengembangan dan eksplorasi perangkat Lumia berbasis Microsoft Windows Phone, 
+        mencakup optimasi firmware, tweak sistem, custom ROM, serta tooling pendukung.
+      </p>
+      <div class="meta-classic">
+        <span>◈ untuk developer & enthusiast</span>
+        <span>◈ berbasis Windows Phone 8/8.1/10</span>
+        <span>◈ tooling & riset</span>
+      </div>
+    </div>
+
+    <!-- Konten berita dengan gaya tile vintage -->
+    <h2 class="section-title">▪ BERITA & PEMBARUAN</h2>
+    
+    <div class="tile-grid">
+      <div class="tile">
+        <div class="tile-category">[ FIRMWARE ]</div>
+        <h3>Optimasi WP 8.1 untuk Lumia 1520</h3>
+        <p>Build kustom dengan peningkatan performa GPU dan manajemen memori. Cocok untuk daily driver dengan baterai lebih awet.</p>
+        <div class="tile-footer">
+          <span class="tile-date">◷ 3 hari lalu</span>
+          <a href="#" class="tile-link">BACA →</a>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-category">[ TWEAK ]</div>
+        <h3>Registry patcher for Windows Phone 8.1</h3>
+        <p>Toolbar terbaru untuk membuka kunci registry, mengaktifkan fitur tersembunyi, dan menyesuaikan sistem secara mendalam.</p>
+        <div class="tile-footer">
+          <span class="tile-date">◷ 1 minggu lalu</span>
+          <a href="#" class="tile-link">BACA →</a>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-category">[ CUSTOM ROM ]</div>
+        <h3>Lumia Star OS v2.0 (beta)</h3>
+        <p>ROM berbasis Windows 10 Mobile dengan visual segar, banyak bloatware dipangkas, dan driver kamera Lumia ditingkatkan.</p>
+        <div class="tile-footer">
+          <span class="tile-date">◷ 2 minggu lalu</span>
+          <a href="#" class="tile-link">BACA →</a>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-category">[ TOOLING ]</div>
+        <h3>LumiaImageTool rilis versi 2.1</h3>
+        <p>Flashing tool lintas platform (Windows/Linux) untuk file FFU/IMG. Dukungan penuh untuk semua model Lumia.</p>
+        <div class="tile-footer">
+          <span class="tile-date">◷ 22 Feb 2026</span>
+          <a href="#" class="tile-link">BACA →</a>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-category">[ KOMUNITAS ]</div>
+        <h3>Meetup developer Eropa 2026</h3>
+        <p>Rekap pertemuan enthusiast Lumia di Berlin. Diskusi porting aplikasi modern dan reverse engineering.</p>
+        <div class="tile-footer">
+          <span class="tile-date">◷ 10 Feb 2026</span>
+          <a href="#" class="tile-link">BACA →</a>
+        </div>
+      </div>
+
+      <div class="tile">
+        <div class="tile-category">[ PANDUAN ]</div>
+        <h3>Memperpanjang umur baterai Lumia</h3>
+        <p>Panduan kalibrasi baterai dan tweak power management untuk Windows Phone 8.1/10.</p>
+        <div class="tile-footer">
+          <span class="tile-date">◷ 1 Feb 2026</span>
+          <a href="#" class="tile-link">BACA →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tooling vintage section -->
+    <div class="tool-section">
+      <h2>⚒ TOOLING PENDUKUNG</h2>
+      <div class="tool-badges">
+        <span>LumiaFirmwarePack</span>
+        <span>RegistryWP</span>
+        <span>Thor2 wrapper</span>
+        <span>WP Image Tool</span>
+        <span>Lumia Custom ROM Builder</span>
+        <span>WP SDK Tools</span>
+        <span>FFU Manager</span>
+        <span>Nokia Logging</span>
+      </div>
+      <p style="margin-top: 25px; color: #b0c9f0; font-style: italic; border-left: 4px solid #ffb900; padding-left: 15px;">
+        “dirancang untuk eksplorasi maksimal perangkat Lumia”
+      </p>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>
+        © 2026 LUMIA STAR PROJECT · <a href="#">tentang</a> · <a href="#">repositori</a> · 
+        <a href="#">arsip</a> · <a href="#">kontributor</a>
+      </p>
+      <p style="margin-top: 10px; color: #7e99bb;">
+        Windows Phone, Nokia Lumia — untuk pelestarian dan pengembangan.
+      </p>
+    </footer>
+  </div>
+
+  <!-- Efek ekstra vintage: sedikit noise -->
+  <div style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; background:url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCNmKSIgb3BhY2l0eT0iMC4wNCIgLz48L3N2Zz4='); opacity:0.1; z-index:999;"></div>
+</body>
+</html>
